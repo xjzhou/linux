@@ -1,0 +1,2 @@
+x11vnc -auth /var/gdm/:0.Xauth -display :0
+#sudo x11vnc -forever -passwd

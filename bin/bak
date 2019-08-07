@@ -1,0 +1,6 @@
+#!/bin/bash
+#建议您使用这个命令：“sudo cp xxx xxx_`date +%y%m%d_%H:%M`”。
+#当然这很麻烦，您可以新建一个名为“bak”的文件，内容如下：
+#把它放在您能够记住的目录下，比如“/home”，执行命令
+# sh /home/bak xxx 就可以将当前文件夹下的文件“xxx”另存为“xxx_yymmdd_HH:MM”的格式了
+cp $1 $1_`date +%y%m%d_%H%M`

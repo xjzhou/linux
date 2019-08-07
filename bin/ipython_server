@@ -1,0 +1,1 @@
+ipython notebook --profile=nbserver --certfile=/home/xizhao/conf/mycert.pem &

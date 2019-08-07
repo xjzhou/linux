@@ -1,0 +1,121 @@
+export HOSTNAME=s002159.cm6
+#PS1="\[\e[1;30m\]\h\[\e[m\]:\[\e[32;40m\]\w\[\e[35;1m\]$\[\e[m\] "
+PS1="\[\e[32;40m\]\w\[\e[35;1m\]$\[\e[m\] "
+
+# hadoop
+export HADOOP_HOME=/home/yunti/hadoop-current
+export HADOOP_VERSION=2
+export HADOOP_CONF_DIR=/home/xizhao/yunti/conf
+export JAVA_HOME=/home/yunti/java-current
+
+export MLLIB_HOME=$HOME/mllib
+
+PATH=$MLLIB_HOME/bin:$HADOOP_HOME/bin:$JAVA_HOME/bin:$HOME/bin:$PATH
+
+#hive
+export HIVE_HOME=${HOME}/yunti/hive
+export HIVE_CONF_DIR=${HIVE_HOME}/conf
+export PATH=$HIVE_HOME/bin:$PATH
+alias hive='${HIVE_HOME}/bin/hive'
+
+
+#export CLASSPATH=/usr/local/jdk1.6.0_13/jre/lib/jsse.jar:/usr/local/jdk1.6.0_13/jre/lib:/usr/local/hadoop/hadoop-0.19.1/:/usr/local/hadoop/hadoop-0.19.1/lib:/home/richard.wangy/hive/lib/:.
+#
+export HHOME=/group/tbsc-dev/xizhao
+#export LANG=zh_CN.gbk
+#export LC_ALL=zh_CN.gbk
+
+
+# protobuf
+export PROTO_BUF=/home/work/.jumbo/proto
+export PATH=$PROTO_BUF/bin:$PATH
+export LD_LIBRARY_PATH=$PROTO_BUF/lib:$LD_LIBRARY_PATH
+
+
+
+#hadoop
+alias hadoop='$HADOOP_HOME/bin/hadoop'
+alias hfs='hadoop fs'
+alias hls='hadoop fs -ls'
+alias hcat='hadoop fs -cat'
+alias htxt='hadoop fs -text'
+alias hget='hadoop fs -get'
+alias hgetmerge='hadoop fs -getmerge'
+alias hput='hadoop fs -put'
+
+function hdus()
+{
+    hadoop dfs -dus $1 | awk '{printf("%s\t%.1fG\n", $1, $2/1024/1024/1024);}'
+}
+
+function hdu() {
+    hfs -du $1 | awk 'BEGIN{cnt=0};
+    {
+        if(/^[0-9]/) {
+            cnt+=$1;
+            printf("%03d,%03d,%03d,%03d,%03d %s\n",
+                    $1/1000000000000,
+                    ($1%1000000000000)/1000000000,
+                    ($1%1000000000)/1000000,
+                    ($1%1000000)/1000,
+                    $1%1000,
+                    $2);
+        } else {
+            print $0;
+        }
+    };
+    END {
+        printf("---T---G---M---K---B\n");
+        printf("%03d,%03d,%03d,%03d,%03d SUM\n",
+                    cnt/1000000000000,
+                    (cnt%1000000000000)/1000000000,
+                    (cnt%1000000000)/1000000,
+                    (cnt%1000000)/1000,
+                    cnt%1000);
+    }'
+}
+
+i(){
+    (head -n 5; tail -n 5) < "$1" | column -t
+}
+
+
+alias vim="/usr/bin/vim -u ${HOME}/conf/vimrc"
+alias vimdiff="/usr/bin/vimdiff -u ${HOME}/conf/vimrc"
+
+# for colorful manpage
+export LESS_TERMCAP_mb=$'\E[0m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;34m'   # begin bold
+export LESS_TERMCAP_me=$'\E[0m'       # end mode
+export LESS_TERMCAP_se=$'\E[0m'       # end standout-mode
+export LESS_TERMCAP_so=$'\E[0;47;30m' # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'       # end underline
+export LESS_TERMCAP_us=$'\E[04;31m'   # begin underline
+
+alias tree='${HOME}/opt/tree-1.6.0/tree'
+
+alias lh='ls -lh --color'
+alias ll='ls -l --color'
+alias ltr='ls -ltr --color'
+alias la='ls -la --color'
+alias mk='make'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias today="date +%Y%m%d"
+alias fast_rm='rsync --delete-before -a -H -v --progress --stats'
+
+
+## some dynamic lib
+export LD_LIBRARY_PATH=${HADOOP_HOME}/libhdfs:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${HADOOP_HOME}/libhce/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${JAVA_HOME}/jre/lib/amd64/server:$LD_LIBRARY_PATH
+
+alias python="${HOME}/opt/python/bin/python3"
+export PYTHONSTARTUP=${HOME}/conf/pythonstartup.py
+PATH=$HOME/opt/python:$PATH
+
+##¿¿¿¿¿¿
+alias to144="ssh search041144.sqa.cm4"
+alias to145="ssh search041145.sqa.cm4"

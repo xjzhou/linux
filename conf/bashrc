@@ -1,35 +1,104 @@
-#export HOSTNAME=s002159.cm6
 #PS1="\[\e[1;30m\]\h\[\e[m\]:\[\e[32;40m\]\w\[\e[35;1m\]$\[\e[m\] "
-PS1="\[\e[32;40m\]\w\[\e[35;1m\]$\[\e[m\] "
+PS1="\[\e[32;40m\]\w\[\e[35;1m\]:)\[\e[m\] "
+tty -s && export PS1="\[$(tput setaf 5)\][\t]\[$(tput sgr0)\]\[$(tput setaf 2)\][\w]\[$(tput setaf 5)\]->\[$(tput sgr0)\] "
+
+#export HOSTNAME=s002159.cm6
+export IP="172.16.202.225|47.96.23.181"
+
+export HISTTIMEFORMAT="%F %T "
+
+centralized(){ L=`echo -n $*|wc -c`; echo -e "\x1b[$[ ($COLUMNS / 2) - ($L / 2) ]C$*"; }
+
+# custom command
+sdu () {
+    du -sk $@ | sort -n | awk '
+    BEGIN {
+    split("K,M,G,T", Units, ",");
+    FS="\t";
+    OFS="\t";
+}
+{
+    u = 1;
+    while ($1 >= 1024) {
+        $1 = $1 / 1024;
+        u += 1
+    }
+    $1 = sprintf("%.1f%s", $1, Units[u]);
+    sub(/\.0/, "", $1);
+    print $0;
+}'
+}
+
+
+#
+# mem : 
+#
+mem () 
+{ 
+    top -n1 -b | head -n7 | sed '1,6d' && top -n1 -b | sed '1,7d' | grep --color=auto $1;
+    ps aux | grep --color=auto $1 | grep --color=auto -v grep | awk -F " " '{ sum += $6 } END { printf "Total Memory Usage: %.1f MB\n", sum/1024 }'
+}
+
+# user bin
+export PATH=$PATH:${HOME}/bin
+
+# JAVA
+JAVA_HOME=/usr/local/java
+PATH=$PATH:$JAVA_HOME/bin
+JRE_HOME=${JAVA_HOME}/jre
+PATH=$PATH:$JRE_HOME/bin
+export PATH
+
+#redis
+#PATH=/Users/xjzhou/devtools/redis/bin/:$PATH
+
+
+# python
+PYTHONPATH="/usr/bin/"
+PATH=/usr/lib64/python3.4/:$PATH
+#alias python="/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+#export PYTHONSTARTUP=${HOME}/conf/pythonstartup.py
+
+# MONGODB
+#MONGODB_HOME=${HOME}/opt/mongodb
+#export PATH=$PATH:${MONGODB_HOME}/bin
+
+# Spark
+#SPARK_HOME="/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/pyspark-2.2.0-py3.4.egg/pyspark"
+#SCALA_HOME=/home/spark/scala
+#export PYSPARK_PYTHON=python3
 
 # boost
-BOOST_INC_DIR=/usr/local/Cellar/boost/1.55.0_2/include/boost/
-BOOST_LIB_DIR=/usr/local/Cellar/boost/1.55.0_2/lib/
+BOOST_INC_DIR=/data/devtools/boost
+BOOST_LIB_DIR=/data/devtools/boost/stage/lib
 
-# hadoop
-export JAVA_HOME=/usr/lib/jvm/default-java
-export SPARK_HOME=/home/spark/spark
-export SCALA_HOME=/home/spark/scala
+export LD_LIBRARY_PATH=${BOOST_LIB_DIR}:$LD_LIBRARY_PATH
 
-export SBT=/home/spark/spark-0.8.0-incubating-bin-cdh4/sbt
-export PATH=$PATH:$SPARK_HOME
-export SPARK_YARN_JAR_ROOT=/group/tbsc-dev/xizhao/spark
 
-export CLASSPATH=/home/spark/spark-0.8.0-incubating-bin-cdh4/assembly/target/scala-2.9.3/spark-assembly-0.8.0-incubating-hadoop1.0.4.jar
-export MLLIB_HOME=$HOME/mllib
+# maven
+#MAVEN_HOME=/Users/xjzhou/devtools/maven/maven
 
-PATH=$MLLIB_HOME/bin:$HADOOP_HOME/bin:$JAVA_HOME/bin:$SCALA_HOME/bin:$SBT:$HOME/bin:$PATH
+#SBT=/home/spark/spark-0.8.0-incubating-bin-cdh4/sbt
+#PATH=$PATH:$SPARK_HOME
+#SPARK_YARN_JAR_ROOT=/group/tbsc-dev/xizhao/spark
 
-#hive
-export HIVE_HOME=${HOME}/yunti/hive
-export HIVE_CONF_DIR=${HIVE_HOME}/conf
-export PATH=$HIVE_HOME/bin:$PATH
-alias hive='${HIVE_HOME}/bin/hive'
+#CLASSPATH=/home/spark/spark-0.8.0-incubating-bin-cdh4/assembly/target/scala-2.9.3/spark-assembly-0.8.0-incubating-hadoop1.0.4.jar
+#MLLIB_HOME=$HOME/mllib
+
+#PATH=$MLLIB_HOME/bin:$HADOOP_HOME/bin:$JAVA_HOME/bin:${MAVEN_HOME}/bin:$SCALA_HOME/bin:$SBT:$HOME/bin:$PATH
+
+#
+# hive
+#
+#export HIVE_HOME=${HOME}/yunti/hive
+#export HIVE_CONF_DIR=${HIVE_HOME}/conf
+#export PATH=$HIVE_HOME/bin:$PATH
+#alias hive='${HIVE_HOME}/bin/hive'
 
 
 #export CLASSPATH=/usr/local/jdk1.6.0_13/jre/lib/jsse.jar:/usr/local/jdk1.6.0_13/jre/lib:/usr/local/hadoop/hadoop-0.19.1/:/usr/local/hadoop/hadoop-0.19.1/lib:/home/richard.wangy/hive/lib/:.
 #
-export HHOME=/group/tbsc-dev/xizhao
+#export HHOME=/group/tbsc-dev/xizhao
 #export LANG=zh_CN.gbk
 #export LC_ALL=zh_CN.gbk
 
@@ -50,6 +119,7 @@ export HHOME=/group/tbsc-dev/xizhao
 #alias hget='hadoop fs -get'
 #alias hgetmerge='hadoop fs -getmerge'
 #alias hput='hadoop fs -put'
+
 
 function hdus()
 {
@@ -83,8 +153,19 @@ function hdu() {
     }'
 }
 
-i(){
-    (head -n 5; tail -n 5) < "$1" | column -t
+function i(){
+    (head -n 5; tail -n 5) < "$1"
+}
+
+#
+# https://www.zhihu.com/question/21690166/answer/66721478
+#
+function superman () {
+    if [[ "$1" == "-I" || "$1" == "-i" ]]; then
+        man "$2" | less -I -p "^[ ]+\"*-*$3( |=|,|$|\[|\+|\")"
+    else
+        man "$1" | less -p "^[ ]+\"*-*$2( |=|,|$|\[|\+|\")"
+    fi
 }
 
 
@@ -116,18 +197,50 @@ alias egrep='egrep --color=auto'
 alias today="date +%Y%m%d"
 alias fast_rm='rsync --delete-before -a -H -v --progress --stats'
 
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
 
 ## some dynamic lib
-export LD_LIBRARY_PATH=${HADOOP_HOME}/libhdfs:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=${HADOOP_HOME}/libhce/lib:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=${JAVA_HOME}/jre/lib/amd64/server:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=${HADOOP_HOME}/libhdfs:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=${HADOOP_HOME}/libhce/lib:$LD_LIBRARY_PATH
 
-alias python="/usr/local/bin/python3"
-export PYTHONSTARTUP=${HOME}/conf/pythonstartup.py
-#PATH=$HOME/opt/python:$PATH
+alias ctags="/usr/bin/ctags"
+alias ctags+='ctags -R --c++-kinds=+px --fields=+iaS --extra=+q'
+alias xtags='ctags -R --c++-kinds=+px --fields=+iaS --extra=+q'
 
 #
-ssh-add ~/.ssh/id_rsa 
-alias 'to-xizhao-linuxmint=ssh xizhao@10.72.85.232'
-alias 'to-cm4=ssh xizhao@login1.cm4.taobao.org'
-alias 'toyun=ssh zhouxiangjun@223.5.23.135 -A -p23555'
+#ssh-add ~/.ssh/id_rsa 
+#alias 'toyun=ssh zhouxiangjun@223.5.23.135 -A -p23555'
+#alias 'quicloud=ssh zhouxiangjun@115.231.103.218 -A -p23555'
+
+# clojure
+alias clj="java -jar /data/devtools/clojure/clojure-1.8.0.jar $1"
+
+# notepad
+#alias note="node /usr/local/bin/markmon --port 9802 --view 'open http://localhost:9802'"
+
+#alias g++-4.2.1='/usr/bin/g++'
+#alias gcc-4.2.1='/usr/bin/gcc'
+#
+#alias g++='/usr/local/bin/g++-4.9'
+#alias gcc='/usr/local/bin/gcc-4.9'
+
+# xiaoshudian
+XSD00=xjzhou@121.40.52.134
+XSD01=xjzhou@121.41.112.169
+XSD02=xjzhou@120.26.140.182
+alias 'xsd00=ssh xjzhou@121.40.52.134'
+alias 'xsd01=ssh xjzhou@121.41.112.169'
+alias 'xsd02=ssh xjzhou@120.26.140.182'
+alias 'us01=ssh root@47.88.18.144'
+
+# 东家
+
+
+#
+# PYTHON
+# 
+alias bpython=bpython3.4
+alias 'httpserver=python3.6 -m http.server --bind 172.16.202.225 9801'

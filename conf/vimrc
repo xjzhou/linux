@@ -4,10 +4,10 @@ set nu
 set hls
 "set cul     " set cursorline
 
-" ÕâÁ½¾äÖ»ÔÚ Linux ÏÂĞèÒª
+" è¿™ä¸¤å¥åªåœ¨ Linux ä¸‹éœ€è¦
 " so $VIMRUNTIME/delmenu.vim
 " so $VIMRUNTIME/menu.vim
-" Ñ¡ÓÃÅäÉ«·½°¸
+" é€‰ç”¨é…è‰²æ–¹æ¡ˆ
 colorscheme desert
 
     " Platform
@@ -77,23 +77,23 @@ function! MySys()
     set ai
 
     " 
-    " Ä¬ÈÏÊÇ  "menu,preview"
-    " ¸ü¶à²é¿´ help completeopt
+    " é»˜è®¤æ˜¯  "menu,preview"
+    " æ›´å¤šæŸ¥çœ‹ help completeopt
     " set completeopt=longest,menu
 
-    " let g:calendar_diary="F:\\My\ Documents\\ÎÒµÄ±¸·İ\\diary"
+    " let g:calendar_diary="F:\\My\ Documents\\æˆ‘çš„å¤‡ä»½\\diary"
     map <C-J> <C-W>j
     map <C-K> <C-W>k
 
-    " ÕâÏî±ØĞëÉè¶¨£¬·ñÔò³ö´í,ÅäÖÃtaglistµÄctagsÂ·¾¶
+    " è¿™é¡¹å¿…é¡»è®¾å®šï¼Œå¦åˆ™å‡ºé”™,é…ç½®taglistçš„ctagsè·¯å¾„
     filetype on
    " add by xjzhou 2008.12.13
 function AddFileDesc()
     if &syntax=="cpp" || &syntax=="c" || &syntax=="h" || &syntax=="java"
         call setline(1,"/*******************************************************************")    
-        call  append(1,"* Copyright (c) www.taobao.com")
+        call  append(1,"* Copyright (c) www.shujuzhou.com")
         call  append(2,"* File: ".expand("%"))
-        call  append(3,"* Author: Zhou Xiangjun (xizhao@taobao.com)")
+        call  append(3,"* Author: xjzhou@shujuzhou.com)")
         call  append(4,"* Date Created: ".strftime("%m/%d/%Y %H:%M"))
         call  append(5,"* Date Revised: ".strftime("%m/%d/%Y %H:%M"))
         call  append(6,"* Desc: ")
@@ -109,9 +109,9 @@ function AddFileDesc()
         endif
         call append(1,"")
         call append(2,"####################################################################")
-        call append(3,"# Copyright (c) www.taobao.com")
+        call append(3,"# Copyright (c) www.shujuzhou.com")
         call append(4,"# File: ".expand("%"))
-        call append(5,"# Author: Zhou Xiangjun (xizhao@taobao.com)")
+        call append(5,"# Author: xjzhou@shujuzhou.com)
         call append(6,"# Date Created: ".strftime("%m/%d/%Y %H:%M"))
         call append(7,"# Date Revised: ".strftime("%m/%d/%Y %H:%M"))
         call append(8,"# Desc: ")
@@ -119,8 +119,8 @@ function AddFileDesc()
         call append(10,"####################################################################")
     else
         call append(0,"####################################################################")
-        call append(1,"# Copyright (c) www.taobao.com")
-        call append(2,"# Author: Zhou Xiangjun (xizhao@taobao.com)")
+        call append(1,"# Copyright (c) www.shujuzhou.com")
+        call append(2,"# Author: xjzhou@shujuzhou.com")
         call append(3,"# Date Created: ".strftime("%m/%d/%Y %H:%M"))
         call append(4,"# Date Revised: ".strftime("%m/%d/%Y %H:%M"))
         call append(5,"# Desc: ")
@@ -137,18 +137,18 @@ function AddFileDesc()
 
     map <F1> :MRU <CR>
 
-    " ¸ù¾İÎÄ¼ş¸ñÊ½¼Ó×¢ÊÍ
+    " æ ¹æ®æ–‡ä»¶æ ¼å¼åŠ æ³¨é‡Š
 function AddRemark()
     if &syntax=="cpp" || &syntax=="c" || &syntax=="h" || &syntax=="php"
-    execute "normal  \<ESC>\<S-$>a// by Zhou Xiangjun ".strftime("%m/%d/%Y")"\<ESC>27hi"
+    execute "normal  \<ESC>\<S-$>a// by xjzhou".strftime("%m/%d/%Y")"\<ESC>27hi"
     elseif &syntax=="awk" || &syntax=="sh"
-    execute "normal \<ESC>\<S-$>a# by Zhou Xiangjun " .strftime("%m/%d/%Y")"\<ESC>26hi"
+    execute "normal \<ESC>\<S-$>a# by xjzhou" .strftime("%m/%d/%Y")"\<ESC>26hi"
     endif
     endf
 
     map <F6> <Esc>:call AddRemark()<CR><Esc>
 
-    " latex µÄÉèÖÃ
+    " latex çš„è®¾ç½®
     " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
     filetype plugin on
 
@@ -171,16 +171,16 @@ function AddRemark()
 
     command! -bar -nargs=0 SudoW   :silent exe "write !sudo tee % >/dev/null"|silent edit!
 
-    " VIM ¼Ç×¡ÉÏ´Î±à¼­Î»ÖÃµÄ·½·¨
+    " VIM è®°ä½ä¸Šæ¬¡ç¼–è¾‘ä½ç½®çš„æ–¹æ³•
     autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \ exe "normal g`\"" |
     \ endif
 
-" ²åÈëÄ£Ê½ÇĞ»»
+" æ’å…¥æ¨¡å¼åˆ‡æ¢
 map <F7> :set paste!<BAr>set paste?<CR>
 "
-" ¶à Tab Ê±·­Ò³
+" å¤š Tab æ—¶ç¿»é¡µ
 map <silent> <F8> :tabprevious<CR>
 imap <silent> <F8> <Esc>:tabprevious<CR>gi
 
@@ -196,26 +196,27 @@ let g:pydiction_location = '~/.vim/tools/pydiction/complete-dict'
 """"""""""""""""""""""""""""""
 " Tag list (ctags)
 """"""""""""""""""""""""""""""
-if MySys() == "windows"                "Éè¶¨windowsÏµÍ³ÖĞctags³ÌĞòµÄÎ»ÖÃ
+if MySys() == "windows"                "è®¾å®šwindowsç³»ç»Ÿä¸­ctagsç¨‹åºçš„ä½ç½®
     let Tlist_Ctags_Cmd = 'ctags'
-elseif MySys() == "linux"              "Éè¶¨windowsÏµÍ³ÖĞctags³ÌĞòµÄÎ»ÖÃ
-    let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+else  
+    let Tlist_Ctags_Cmd = '/usr/local/bin/ctags' 
 endif
-let Tlist_Show_One_File = 1            "²»Í¬Ê±ÏÔÊ¾¶à¸öÎÄ¼şµÄtag£¬Ö»ÏÔÊ¾µ±Ç°ÎÄ¼şµÄ
-let Tlist_Exit_OnlyWindow = 1          "Èç¹ûtaglist´°¿ÚÊÇ×îºóÒ»¸ö´°¿Ú£¬ÔòÍË³övim
-let Tlist_Use_Right_Window = 0         "ÔÚÓÒ²à´°¿ÚÖĞÏÔÊ¾taglist´°¿Ú
+
+let Tlist_Show_One_File = 1            "ä¸åŒæ—¶æ˜¾ç¤ºå¤šä¸ªæ–‡ä»¶çš„tagï¼Œåªæ˜¾ç¤ºå½“å‰æ–‡ä»¶çš„
+let Tlist_Exit_OnlyWindow = 1          "å¦‚æœtaglistçª—å£æ˜¯æœ€åä¸€ä¸ªçª—å£ï¼Œåˆ™é€€å‡ºvim
+let Tlist_Use_Right_Window = 0         "åœ¨å³ä¾§çª—å£ä¸­æ˜¾ç¤ºtaglistçª—å£
 
 """""""""""""""""""""""""""""""
 "" winManager setting
 """""""""""""""""""""""""""""""
-"ÉèÖÃ½çÃæ·Ö¸î
+"è®¾ç½®ç•Œé¢åˆ†å‰²
 "let g:winManagerWindowLayout='NERDTree|TagList,BufExplorer'
 let g:winManagerWindowLayout='FileExplore|TagList,BufExplorer'
 
-"ÉèÖÃwinmanagerµÄ¿í¶È£¬Ä¬ÈÏÎª25
+"è®¾ç½®winmanagerçš„å®½åº¦ï¼Œé»˜è®¤ä¸º25
 let g:winManagerWidth = 30
 
-"ÔÚ½øÈëvimÊ±×Ô¶¯´ò¿ªwinmanager
+"åœ¨è¿›å…¥vimæ—¶è‡ªåŠ¨æ‰“å¼€winmanager
 let g:AutoOpenWinManager = 0
 if g:AutoOpenWinManager 
     "autocmd VimEnter * nested call s:StartWindowsManager()|1wincmd w  
@@ -232,6 +233,12 @@ function! NERDTree_IsValid()
     return 1
 endfunction
 
-"¶¨Òå´ò¿ª¹Ø±Õwinmanager°´¼ü
+"å®šä¹‰æ‰“å¼€å…³é—­winmanageræŒ‰é”®
 nmap wm :if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
 nmap <F3> :if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
+
+"vim-pathogen
+execute pathogen#infect()
+
+"git commit msg
+autocmd Filetype gitcommit setlocal spell textwidth=72

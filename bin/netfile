@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Works because bash automatically trims by assigning to variables and by 
+# passing arguments
+trim() { echo $1; }
+
+if [[ -z "$1" ]]; then
+    echo "Specify file name as the first argument"
+    exit
+fi
+#ip=$(host `hostname`| cut -d " " -f 4)
+#ip=`hostname`
+ip='47.96.23.181'
+fullname=$(readlink -f $(trim $1))     # for unix/linux
+#fullname=$(greadlink -f $(trim $1))      # for mac
+
+echo $ip:$fullname
