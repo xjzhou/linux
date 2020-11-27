@@ -1,3 +1,5 @@
+DISABLE_AUTO_TITLE=true
+
 #PS1="\[\e[1;30m\]\h\[\e[m\]:\[\e[32;40m\]\w\[\e[35;1m\]$\[\e[m\] "
 PS1="\[\e[32;40m\]\w\[\e[35;1m\]:)\[\e[m\] "
 tty -s && export PS1="\[$(tput setaf 5)\][\t]\[$(tput sgr0)\]\[$(tput setaf 2)\][\w]\[$(tput setaf 5)\]->\[$(tput sgr0)\] "
@@ -55,8 +57,7 @@ export PATH
 
 # python
 PYTHONPATH="/usr/bin/"
-PATH=/usr/lib64/python3.4/:$PATH
-#alias python="/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+PATH=/usr/lib64/python3.6/:$PATH
 #export PYTHONSTARTUP=${HOME}/conf/pythonstartup.py
 
 # MONGODB
@@ -242,5 +243,4 @@ alias 'us01=ssh root@47.88.18.144'
 #
 # PYTHON
 # 
-alias bpython=bpython3.4
-alias 'httpserver=python3.6 -m http.server --bind 172.16.202.225 9801'
+alias 'httpserver=python3.6 -m http.server --bind 172.16.202.225 9802'

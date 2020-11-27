@@ -1,10 +1,10 @@
 #encoding=utf-8
 ## ` is an interesting key for a prefix
 # set-option -g prefix C-a
-set-option -g prefix C-l             # mac ctrl 对应是Ctrl
+set-option -g prefix C-l
 unbind-key C-b
 
-# Allows us to use C-a a <command> to send commands to a TMUX session inside 
+# Allows us to use C-a a <command> to send commands to a TMUX session inside
 # another TMUX session
 #bind-key a send-prefix
 
@@ -24,9 +24,6 @@ set-option -g display-time 5000                   #提示信息的持续时间�
 set-option -g repeat-time 1000                    #控制台激活后的持续时间；设置合适的时间以避免每次操作都要先激活控制台，单位为毫秒
 set-option -g status-keys vi                      #操作状态栏时的默认键盘布局；可以设置为vi或emacs
 
-#set-option -g default-terminal "screen-256color"
-#set-option -g mouse-select-pane on
-#set-option -g bell-action any
 
 # 水平或垂直分割窗口
 unbind '"'
@@ -41,24 +38,25 @@ bind k selectp -U # 选择上窗格
 bind l selectp -R # 选择右窗格
 
 # 重新调整窗格的大小 resize-pane [-DLRU] [-t target-pane] [adjustment]
-bind ^h resizep -L 10 
-bind ^j resizep -D 5  
-bind ^k resizep -U 5  
-bind ^l resizep -R 10 
+bind ^h resizep -L 10
+bind ^j resizep -D 5
+bind ^k resizep -U 5
+bind ^l resizep -R 10
 
-set-option -g pane-border-fg white 
-set-option -g pane-border-bg black
-set-option -g pane-active-border-fg green
-set-option -g pane-active-border-bg black
 
-set-option -g message-fg black
-set-option -g message-bg green
-
+#set-option -g pane-border-fg white
+#set-option -g pane-border-bg black
+#set-option -g pane-border-bg black
+#set-option -g pane-active-border-fg green
+#set-option -g pane-active-border-bg black
+#
+#set-option -g message-fg black
+#set-option -g message-bg green
 
 #  #(shell-command)  First line of the command<A1><AF>s output
 #  #[attributes]     Colour or attribute change
 #  #H  Hostname of local host
-#  #h  Hostname of local host without the domain name 
+#  #h  Hostname of local host without the domain name
 #  #F  Current window flag
 #  #I  Current window index
 #  #P  Current pane index
@@ -75,13 +73,7 @@ set-option -g message-bg green
 #
 # Mouse mode
 #
-#set -g mode-mouse on
-#set -g mouse-resize-pane on
-#set -g mouse-select-pane on
-#set -g mouse-select-window on
-
-#setw -g monitor-activity on
-#setw -g mode-mouse on
+set -g mouse on
 
 ####### 状态栏
 #set-option -g status-utf8 on            #开启状态栏的UTF-8支持
@@ -89,7 +81,7 @@ set-option -g status-bg black
 set-option -g status-fg white
 
 # left
-#set -g status-left-length 30
+set -g status-left-length 20
 #set -g status-left '#[fg=green,bright][#S]'
 #set -g status-left '#[fg=blue][#S]'
 set -g status-left '#[fg=green][#[fg=cyan]STAY FOCUSED#[fg=green]]'
@@ -100,7 +92,7 @@ set-option -g status-justify centre     # 中间部分居中
 
 # right
 #set-option -g status-right-length 10    #状态栏右方的内容长度；建议把更多的空间留给状态栏左方（用于列出当前窗口）
-#set -g status-right "#[fg=red][ #[fg=green]%H:%M #[fg=magenta]%a %m-%d #[fg=red]] #[fg=blue]:#[fg=cyan]:#[default]" 
+#set -g status-right "#[fg=red][ #[fg=green]%H:%M #[fg=magenta]%a %m-%d #[fg=red]] #[fg=blue]:#[fg=cyan]:#[default]"
 #set -g status-right '#[fg=green][#[fg=white] #T #[fg=green]][ #[fg=blue]%Y%m%d #[fg=white]%H:%M #[fg=green]]#[default]'
 set -g status-right '#[fg=green][ #[fg=blue]%Y%m%d #[fg=white]%H:%M #[fg=green]]#[default]'
 
@@ -116,27 +108,26 @@ set -g status-right '#[fg=green][ #[fg=blue]%Y%m%d #[fg=white]%H:%M #[fg=green]]
 #此类设置可以在命令行模式中输入show-window-options -g查询
 #set-window-option -g utf8 on         #开启窗口的UTF-8支持
 # default window title colors
-set-window-option -g window-status-fg white
-set-window-option -g window-status-bg black
-set-window-option -g window-status-attr dim
+# set-window-option -g window-status-fg white
+# set-window-option -g window-status-bg black
+# set-window-option -g window-status-attr dim
 
 # active window title colors
-set-window-option -g window-status-current-fg brightred
-set-window-option -g window-status-current-bg black
-set-window-option -g window-status-current-attr bright
+# set-window-option -g window-status-current-fg brightred
+# set-window-option -g window-status-current-bg black
+# set-window-option -g window-status-current-attr bright
+
+set-window-option -g window-status-format "#[dim]#I:#[default]#W#[fg=grey,dim]"
+set-window-option -g window-status-current-format "#[fg=cyan,bold]#I#[fg=blue]:#[fg=cyan]#W#[fg=dim]"
 
 #
 #set-window-option -g mode-fg white
 #set-window-option -g mode-bg red
 #set-window-option -g mode-attr bright
 
-#setw -g window-status-format '#[fg=blue,bg=black,bold]#I #T#[default] '
-#setw -g window-status-current-format '#[fg=blue,bold,bg=black,reverse]#I #T#[default] '
-setw -g window-status-format '#I #T #[default]'
-setw -g window-status-current-format '#I #T #[default]'
 
-# Rather than constraining window size to the maximum size of any client 
-# connected to the *session*, constrain window size to the maximum size of any 
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
 setw -g aggressive-resize on
 
@@ -149,5 +140,11 @@ setw -g automatic-rename on
 # Clock
 set-window-option -g clock-mode-style 24
 set -g history-limit 65535
+
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
 
 bind r source-file ~/.tmux.conf
